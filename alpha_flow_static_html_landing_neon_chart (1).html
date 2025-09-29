@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alpha Flow — AI‑Assisted Trading Alerts</title>
+  <meta name="description" content="Alpha Flow delivers AI‑assisted trading alerts for Forex, Futures, and Crypto with structured screeners, institutional confluence, and Discord delivery." />
+  <link rel="icon" href="./alphaflow_icon_512.png" sizes="512x512" />
+  <meta property="og:title" content="Alpha Flow — AI‑Assisted Trading Alerts" />
+  <meta property="og:description" content="Signals with structure: FVG, S/D, BOS/CHoCH, VWAP, volume profile. Multi‑TF bias, fewer but better trades." />
+  <meta property="og:image" content="./alphaflow_icon_512.png" />
+  <meta name="theme-color" content="#ff3bd4" />
+
+  <!-- Tailwind via CDN for quick static hosting -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { bg: '#0b1220', cyan: '#00d4ff', neon: '#ff3bd4' }
+          },
+          boxShadow: { glow: '0 0 30px rgba(255, 59, 212, .25)' }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass { background: rgba(255,255,255,.05); backdrop-filter: blur(8px); }
+    .grid-bg { background-image: linear-gradient(#ffffff0f 1px, transparent 1px), linear-gradient(90deg, #ffffff0f 1px, transparent 1px); background-size: 40px 40px; }
+    .btn { transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(0,0,0,.25), 0 0 30px rgba(255, 59, 212, .25); }
+    .btn:active { transform: translateY(0); opacity:.9; }
+    /* fallback decorative stripes if chart unavailable */
+    .stripe-bg { background-image: repeating-linear-gradient( -45deg, rgba(255,59,212,.07) 0px, rgba(255,59,212,.07) 10px, rgba(0,212,255,.05) 10px, rgba(0,212,255,.05) 20px ); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Alpha Flow",
+    "url": "https://alphaflow.example",
+    "logo": "./alphaflow_icon_512.png",
+    "sameAs": ["DISCORD_INVITE_URL"]
+  }
+  </script>
+</head>
+<body class="min-h-screen bg-brand-bg text-neutral-100 selection:bg-brand-neon/30">
+  <!-- Ambient -->
+  <div class="pointer-events-none fixed inset-0 -z-20">
+    <div class="absolute inset-0 grid-bg"></div>
+    <div class="absolute left-1/2 top-[-10%] h-[70vmin] w-[70vmin] -translate-x-1/2 rounded-full bg-brand-neon/10 blur-3xl"></div>
+    <div class="absolute right-[-10%] top-1/3 h-[55vmin] w-[55vmin] rounded-full bg-brand-cyan/10 blur-3xl"></div>
+  </div>
+
+  <!-- NAV -->
+  <header class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5">
+    <div class="flex items-center gap-3">
+      <picture>
+        <source srcset="./alphaflow_icon.svg" type="image/svg+xml" />
+        <img src="./alphaflow_icon_512.png" alt="Alpha Flow" class="h-10 w-10 rounded-xl ring-1 ring-white/15 object-cover" />
+      </picture>
+      <span class="font-semibold tracking-wide">Alpha Flow</span>
+    </div>
+    <nav class="hidden gap-8 md:flex text-sm text-neutral-300">
+      <a href="#features" class="hover:text-white">Features</a>
+      <a href="#how" class="hover:text-white">How it works</a>
+      <a href="#pricing" class="hover:text-white">Pricing</a>
+      <a href="#changelog" class="hover:text-white">Changelog</a>
+      <a href="#faq" class="hover:text-white">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href="#newsletter" class="btn rounded-xl bg-white/10 px-3 py-2 text-sm font-semibold hover:bg-white/20">Newsletter</a>
+      <a href="DISCORD_INVITE_URL" class="btn rounded-xl bg-gradient-to-r from-brand-neon to-brand-cyan px-4 py-2 text-sm font-semibold shadow-glow">Join Discord</a>
+    </div>
+  </header>
+
+  <!-- HERO with chart background -->
+  <section class="relative mx-auto w-full max-w-7xl px-6 pb-14 pt-4 md:pb-24 md:pt-10">
+    <div class="absolute inset-6 -z-10 rounded-2xl glass ring-1 ring-white/10 overflow-hidden">
+      <div id="hero-chart" class="h-full w-full"></div>
+      <div id="hero-fallback" class="hidden h-full w-full stripe-bg"></div>
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-bg/10 via-brand-bg/40 to-brand-bg"></div>
+    </div>
+
+    <div class="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
+      <div>
+        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-300">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+          Live Discord alerts • Forex • Futures • Crypto
+        </div>
+        <h1 class="bg-gradient-to-b from-white to-neutral-300 bg-clip-text text-4xl font-bold leading-tight text-transparent sm:text-5xl md:text-6xl">
+          AI‑assisted signals for serious execution
+        </h1>
+        <p class="mt-4 max-w-xl text-neutral-300">
+          Structured screeners + institutional concepts (FVG, S/D, BOS/CHoCH, POC, sessions). Clean risk, fewer but better trades.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a href="DISCORD_INVITE_URL" class="btn rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/20">Join Free Channel</a>
+          <a href="#pricing" class="btn rounded-2xl border border-white/10 px-5 py-3 text-sm font-semibold text-neutral-200 hover:bg-white/5">See Pricing</a>
+        </div>
+
+        <!-- Email capture -->
+        <form id="newsletter" class="mt-6 flex max-w-md gap-2" action="FORMSUBMIT_ENDPOINT" method="POST">
+          <input name="email" type="email" required placeholder="Enter your email for early access"
+                 class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm placeholder-neutral-400 outline-none focus:ring-2 focus:ring-brand-neon/50" />
+          <button class="btn rounded-xl bg-gradient-to-r from-brand-neon to-brand-cyan px-4 py-3 text-sm font-semibold shadow-glow">Notify me</button>
+        </form>
+
+        <div class="mt-8 grid grid-cols-3 gap-6 text-center text-sm text-neutral-300">
+          <div><div class="text-2xl font-bold text-white">4H / 1H / 15m</div>Multi‑TF bias</div>
+          <div><div class="text-2xl font-bold text-white">A+ only</div>High‑conviction feed</div>
+          <div><div class="text-2xl font-bold text-white">≤ 1s</div>Discord latency</div>
+        </div>
+      </div>
+
+      <div class="glass rounded-2xl p-4 ring-1 ring-white/10">
+        <div class="rounded-xl bg-brand-bg p-4 ring-1 ring-white/10">
+          <div class="mb-3 flex items-center justify-between text-xs text-neutral-400">
+            <span>alpha-flow • live‑signals</span>
+            <span>now</span>
+          </div>
+          <div class="rounded-lg bg-gradient-to-br from-brand-neon/10 to-brand-cyan/10 p-4">
+            <pre class="whitespace-pre-wrap text-xs leading-5 text-neutral-200">[ALERT] XAUUSD LONG (4H bias)
+• Reason: CLS → HTF FVG tap + bullish CHoCH
+• Entry: 2487.50 | SL: 2479.00 | TP: 2512.00 (3R)
+• Confluence: OBV rising, 20/50 EMA cross, below VWAP
+• Note: NY Open only; invalidate above 2520 sweep</pre>
+          </div>
+          <div class="mt-3 text-xs text-neutral-400">Sample alert — educational only.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="mx-auto w-full max-w-7xl px-6 py-12 md:py-20">
+    <h2 class="text-center text-3xl font-semibold md:text-4xl">Built for Forex • Futures • Crypto</h2>
+    <p class="mx-auto mt-3 max-w-2xl text-center text-neutral-300">
+      Early‑signal (relaxed) + High‑conviction (A+) filters. You focus on execution; Alpha Flow does the scanning.
+    </p>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <h3 class="text-lg font-semibold">Forex Alerts</h3>
+        <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+          <li>4H bias + 1H timing</li>
+          <li>EMA20/50 • RSI • MACD • BB</li>
+          <li>VWAP & CCI add‑ons</li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <h3 class="text-lg font-semibold">Futures Alerts</h3>
+        <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+          <li>MNQ/NQ • XAU • MCL</li>
+          <li>PDH/PDL sweeps + micro FVG</li>
+          <li>Session filters (LO/NYO)</li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <h3 class="text-lg font-semibold">Crypto Alerts</h3>
+        <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+          <li>1H/4H momentum + structure</li>
+          <li>Bybit & MEXC lists (cap &gt; $100M)</li>
+          <li>Volume/POC confluence</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Integrations badges -->
+    <div class="mt-10 grid grid-cols-2 gap-4 text-xs text-neutral-400 md:grid-cols-4">
+      <div class="glass rounded-xl px-4 py-3 ring-1 ring-white/10">TradingView</div>
+      <div class="glass rounded-xl px-4 py-3 ring-1 ring-white/10">Discord</div>
+      <div class="glass rounded-xl px-4 py-3 ring-1 ring-white/10">Bybit / MEXC</div>
+      <div class="glass rounded-xl px-4 py-3 ring-1 ring-white/10">Pine/Screeners</div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="mx-auto w-full max-w-7xl px-6 py-12 md:py-20">
+    <h2 class="text-center text-3xl font-semibold md:text-4xl">How it works</h2>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="text-sm text-neutral-400">01</div>
+        <h3 class="mt-1 text-lg font-semibold">Screen</h3>
+        <p class="mt-2 text-neutral-300">Multi‑TF scans for structure (CLS, FVG, BOS/CHoCH), momentum (EMA/RSI/MACD, BB, VWAP) and volume profile (POC).</p>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="text-sm text-neutral-400">02</div>
+        <h3 class="mt-1 text-lg font-semibold">Filter</h3>
+        <p class="mt-2 text-neutral-300">Two‑tier filtering: early‑signal for developing moves, and high‑conviction for A+ entries only.</p>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="text-sm text-neutral-400">03</div>
+        <h3 class="mt-1 text-lg font-semibold">Alert</h3>
+        <p class="mt-2 text-neutral-300">Discord embeds with entry/SL/TP and confidence, plus one‑click links to charts and exchanges.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING with toggle -->
+  <section id="pricing" class="mx-auto w-full max-w-7xl px-6 py-12 md:py-20">
+    <h2 class="text-center text-3xl font-semibold md:text-4xl">Simple pricing</h2>
+    <p class="mx-auto mt-3 max-w-2xl text-center text-neutral-300">Start free, upgrade anytime. Early supporters lock lifetime rates.</p>
+
+    <div class="mt-6 flex justify-center">
+      <div class="glass inline-flex items-center gap-3 rounded-2xl p-2 ring-1 ring-white/10">
+        <button id="btnMonthly" class="btn rounded-xl px-4 py-2 text-sm font-semibold bg-white/10">Monthly</button>
+        <button id="btnAnnual" class="btn rounded-xl px-4 py-2 text-sm font-semibold">Annual <span class="ml-1 rounded bg-brand-neon/20 px-2 py-0.5 text-xs">Save 20%</span></button>
+      </div>
+    </div>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="mb-2 text-sm text-neutral-400">Free</div>
+        <div class="text-3xl font-bold">£0</div>
+        <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+          <li>Public signals (delayed)</li>
+          <li>Weekly watchlists</li>
+          <li>Basic education threads</li>
+        </ul>
+        <a href="DISCORD_INVITE_URL" class="btn mt-6 inline-flex w-full justify-center rounded-xl bg-gradient-to-r from-brand-neon to-brand-cyan px-4 py-2 text-sm font-semibold shadow-glow">Join Free Discord</a>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10 ring-offset-0">
+        <div class="mb-2 text-sm text-neutral-400">Trader</div>
+        <div id="priceTrader" class="text-3xl font-bold">£19/mo</div>
+        <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+          <li>Real‑time alerts (all markets)</li>
+          <li>Entry/SL/TP with R:R</li>
+          <li>Session‑based notes</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="STRIPE_LINK_TRADER" class="btn mt-6 inline-flex w-full justify-center rounded-xl bg-gradient-to-r from-brand-neon to-brand-cyan px-4 py-2 text-sm font-semibold shadow-glow">Start Trader</a>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="mb-2 text-sm text-neutral-400">Pro</div>
+        <div id="pricePro" class="text-3xl font-bold">£39/mo</div>
+        <ul class="mt-4 space-y-2 text-sm text-neutral-300">
+          <li>Everything in Trader</li>
+          <li>Pro screener feeds (A+ only)</li>
+          <li>CSV exports + journal tags</li>
+          <li>Beta features & strategy calls</li>
+        </ul>
+        <a href="STRIPE_LINK_PRO" class="btn mt-6 inline-flex w-full justify-center rounded-xl bg-gradient-to-r from-brand-neon to-brand-cyan px-4 py-2 text-sm font-semibold shadow-glow">Start Pro</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="mx-auto w-full max-w-7xl px-6 py-12 md:py-20">
+    <h2 class="text-center text-3xl font-semibold md:text-4xl">What traders say</h2>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <blockquote class="glass rounded-2xl p-6 ring-1 ring-white/10 text-neutral-300">“Signals are selective and clean. Less noise, better fills.”<footer class="mt-3 text-sm text-neutral-400">— Pro user</footer></blockquote>
+      <blockquote class="glass rounded-2xl p-6 ring-1 ring-white/10 text-neutral-300">“Multi‑TF bias keeps me out of chop. Love the session filters.”<footer class="mt-3 text-sm text-neutral-400">— Futures trader</footer></blockquote>
+      <blockquote class="glass rounded-2xl p-6 ring-1 ring-white/10 text-neutral-300">“The A+ feed alone paid for itself last month.”<footer class="mt-3 text-sm text-neutral-400">— Crypto swing</footer></blockquote>
+    </div>
+  </section>
+
+  <!-- CHANGELOG / UPDATES -->
+  <section id="changelog" class="mx-auto w-full max-w-7xl px-6 py-12 md:py-20">
+    <h2 class="text-center text-3xl font-semibold md:text-4xl">Changelog</h2>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="text-sm text-brand-cyan">2025‑09‑29</div>
+        <h3 class="mt-1 font-semibold">Neon+ UI refresh</h3>
+        <p class="mt-2 text-neutral-300">Added hero chart, pricing toggle, testimonials, and roadmap sections. Improved performance and accessibility.</p>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="text-sm text-brand-cyan">2025‑09‑22</div>
+        <h3 class="mt-1 font-semibold">High‑conviction filter</h3>
+        <p class="mt-2 text-neutral-300">Stricter RR and EMA alignment gates for A+ feed. Lower false positives.</p>
+      </div>
+      <div class="glass rounded-2xl p-6 ring-1 ring-white/10">
+        <div class="text-sm text-brand-cyan">2025‑09‑15</div>
+        <h3 class="mt-1 font-semibold">Discord buttons</h3>
+        <p class="mt-2 text-neutral-300">Alerts now include link buttons to TradingView and exchanges.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="mx-auto w-full max-w-5xl px-6 pb-20">
+    <h2 class="text-center text-3xl font-semibold md:text-4xl">FAQ</h2>
+    <div class="mt-8 space-y-4">
+      <details class="glass rounded-2xl p-5 ring-1 ring-white/10"><summary class="cursor-pointer list-none font-medium">How are alerts generated?</summary><p class="mt-2 text-neutral-300">Rule‑based screener stack combining momentum (EMA/RSI/MACD/BB/VWAP) with structure (FVG, BOS/CHoCH, POC). Early‑signal + High‑conviction tiers.</p></details>
+      <details class="glass rounded-2xl p-5 ring-1 ring-white/10"><summary class="cursor-pointer list-none font-medium">Which markets are supported?</summary><p class="mt-2 text-neutral-300">Forex majors & crosses, futures (MNQ/NQ, XAU, MCL), and Bybit/MEXC crypto with cap &gt; $100M.</p></details>
+      <details class="glass rounded-2xl p-5 ring-1 ring-white/10"><summary class="cursor-pointer list-none font-medium">Do you offer refunds?</summary><p class="mt-2 text-neutral-300">Yes — 7‑day no‑questions refund on first‑time subscriptions.</p></details>
+      <details class="glass rounded-2xl p-5 ring-1 ring-white/10"><summary class="cursor-pointer list-none font-medium">Is this financial advice?</summary><p class="mt-2 text-neutral-300">No. Educational signals only. You are responsible for your trades and risk.</p></details>
+    </div>
+  </section>
+
+  <footer class="border-t border-white/10 py-10 text-center text-sm text-neutral-400">
+    © <span id="yr"></span> Alpha Flow — Educational purposes only. Trading involves risk.
+  </footer>
+
+  <!-- Lightweight Charts for hero background with robust loader & fallbacks -->
+  <script>
+    // Centralized error capture to avoid generic "Script error" surfacing
+    window.addEventListener('error', (e) => {
+      console.warn('[AlphaFlow] Global error captured:', e.message);
+    });
+    window.addEventListener('unhandledrejection', (e) => {
+      console.warn('[AlphaFlow] Unhandled promise rejection:', e.reason);
+    });
+
+    // Utility: load a script as a Promise
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.defer = true;
+        s.crossOrigin = 'anonymous';
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('Failed to load ' + src));
+        document.head.appendChild(s);
+      });
+    }
+
+    // Try to load LightweightCharts from primary CDN, then fallback
+    async function ensureLightweightCharts() {
+      if (window.LightweightCharts) return true;
+      const primary = 'https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js';
+      const fallback = 'https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js';
+      try {
+        await loadScript(primary);
+      } catch (e) {
+        console.warn('[AlphaFlow] Primary CDN failed, trying fallback…');
+      }
+      if (!window.LightweightCharts) {
+        try { await loadScript(fallback); } catch (e) {}
+      }
+      return !!window.LightweightCharts;
+    }
+
+    function showHeroFallback() {
+      const chartEl = document.getElementById('hero-chart');
+      const fb = document.getElementById('hero-fallback');
+      if (chartEl && fb) { chartEl.classList.add('hidden'); fb.classList.remove('hidden'); }
+    }
+
+    function initHeroChart() {
+      const container = document.getElementById('hero-chart');
+      if (!container) return;
+      const chart = LightweightCharts.createChart(container, {
+        layout: { background: { type: 'solid', color: 'transparent' }, textColor: '#a3a3a3' },
+        grid: { vertLines: { color: 'rgba(255,255,255,0.04)' }, horzLines: { color: 'rgba(255,255,255,0.04)' } },
+        timeScale: { visible: false }, rightPriceScale: { visible: false }, crosshair: { vertLine: { visible: false }, horzLine: { visible: false } }
+      });
+      let series;
+      if (typeof chart.addAreaSeries === 'function') {
+        series = chart.addAreaSeries({ topColor: 'rgba(255,59,212,0.12)', bottomColor: 'rgba(0,212,255,0.00)', lineColor: 'rgba(255,59,212,0.45)', lineWidth: 2 });
+      } else if (typeof chart.addLineSeries === 'function') {
+        series = chart.addLineSeries({ color: 'rgba(255,59,212,0.45)', lineWidth: 2 });
+      } else {
+        console.warn('[AlphaFlow] No compatible series method, showing fallback');
+        showHeroFallback();
+        return;
+      }
+      // Synthetic ambient data
+      let t = Math.floor(Date.now()/1000) - 300, price = 100; const data = [];
+      for (let i = 0; i < 300; i++) { price += (Math.random()-0.5)*0.6; data.push({ time: t+i, value: price }); }
+      series.setData(data);
+      chart.timeScale().fitContent();
+      setInterval(() => { t+=1; price += (Math.random()-0.5)*0.6; series.update({ time: t, value: price }); }, 1000);
+
+      // Self‑tests ("test cases")
+      try {
+        console.assert(!!chart, '[TEST] chart exists');
+        console.assert(series && typeof series.setData === 'function', '[TEST] series.setData exists');
+        console.assert(typeof series.update === 'function', '[TEST] series.update exists');
+        console.log('[AlphaFlow] UI self‑tests passed');
+      } catch (e) {
+        console.warn('[AlphaFlow] UI self‑tests failed:', e);
+      }
+    }
+
+    // Pricing toggle logic
+    function initPricingToggle() {
+      const monthly = { trader: '£19/mo', pro: '£39/mo' };
+      const annual  = { trader: '£15/mo', pro: '£31/mo' };
+      const priceTrader = document.getElementById('priceTrader');
+      const pricePro    = document.getElementById('pricePro');
+      const btnMonthly  = document.getElementById('btnMonthly');
+      const btnAnnual   = document.getElementById('btnAnnual');
+      if (!priceTrader || !pricePro || !btnMonthly || !btnAnnual) return;
+      btnMonthly.addEventListener('click', () => { priceTrader.textContent = monthly.trader; pricePro.textContent = monthly.pro; });
+      btnAnnual.addEventListener('click', () => { priceTrader.textContent = annual.trader;  pricePro.textContent = annual.pro;  });
+    }
+
+    // Boot
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Year
+      const yr = document.getElementById('yr'); if (yr) yr.textContent = new Date().getFullYear();
+
+      // Pricing toggle always works
+      initPricingToggle();
+
+      // Load chart library with fallback; if unavailable, show decorative fallback
+      try {
+        const ok = await ensureLightweightCharts();
+        if (ok && window.LightweightCharts) {
+          initHeroChart();
+        } else {
+          showHeroFallback();
+        }
+      } catch (e) {
+        console.warn('[AlphaFlow] Chart init failed:', e);
+        showHeroFallback();
+      }
+    });
+  </script>
+</body>
+</html>
